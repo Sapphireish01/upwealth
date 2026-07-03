@@ -5,8 +5,6 @@
 - **TypeScript** — full type coverage
 - **Tailwind CSS** — brand tokens in `tailwind.config.ts`
 - **Framer Motion** — orbital animation, fade-up reveals
-- **React Hook Form + Zod** — validated contact form
-- **Lucide React** — icons
 
 ## Project Structure
 
