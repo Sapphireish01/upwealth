@@ -25,7 +25,7 @@ upwealth-magazine/
 │   │   └── Footer.tsx
 │   ├── home/
 │   │   ├── HeroSection.tsx      # Headline + fanned covers
-│   │   ├── RadialShowcase.tsx   # Orbital magazine display ⭐
+│   │   ├── RadialShowcase.tsx   # Orbital magazine display 
 │   │   └── AboutSection.tsx
 │   └── contact/
 │       ├── ContactForm.tsx      # RHF + Zod validated
