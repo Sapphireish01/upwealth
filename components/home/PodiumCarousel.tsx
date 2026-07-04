@@ -4,9 +4,6 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 
-// ---------------------------------------------------------------------------
-// Slot dimensions (actual rendered pixels, no CSS scale)
-// ---------------------------------------------------------------------------
 const W0 = 410, H0 = 531; // center — main card
 const W1 = 348, H1 = 451; // ±1    — second place
 const W2 = 30, H2 = 398; // ±2    — last place (thin strip)

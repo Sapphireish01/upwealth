@@ -2,13 +2,13 @@
 export interface MagazineIssue {
   id: string;
   title: string;
-  coverImage: string;       // path under /public/images/covers/
+  coverImage: string;
   coverAlt: string;
-  issue: string;            // e.g. "Vol. 3, Issue 2"
-  date: string;             // e.g. "May 2024"
+  issue: string;
+  date: string;
   description?: string;
-  featured?: boolean;       // true = centre of radial display
-  href?: string;            // link to issue detail page (future)
+  featured?: boolean;
+  href?: string;
 }
 
 // ─── Contact Form ─────────────────────────────────────────────────────────────
