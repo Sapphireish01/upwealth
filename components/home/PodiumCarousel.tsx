@@ -95,9 +95,6 @@ function circularOffset(index: number, active: number, total: number): number {
   return offset;
 }
 
-// ---------------------------------------------------------------------------
-// Component
-// ---------------------------------------------------------------------------
 export default function PodiumCarousel({
   images,
   altTexts,
@@ -131,7 +128,7 @@ export default function PodiumCarousel({
 
   const springTransition = prefersReducedMotion
     ? { duration: 0 }
-    : { type: "spring" as const, stiffness: 260, damping: 26 };
+    : { type: "spring" as const, stiffness: 85, damping: 20, mass: 1 };
 
   return (
     <div
@@ -144,9 +141,7 @@ export default function PodiumCarousel({
       onBlur={() => setHovered(false)}
       ref={containerRef}
     >
-      {/* ------------------------------------------------------------------ */}
-      {/* Track — overflow-visible so side strips aren't clipped             */}
-      {/* ------------------------------------------------------------------ */}
+
       <div
         className="relative w-full overflow-visible"
         style={{ height: H0 }}
@@ -183,10 +178,10 @@ export default function PodiumCarousel({
                 className="block w-full h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A57A60] my-auto"
                 style={{ pointerEvents: isHidden ? "none" : "auto" }}
                 whileHover={!isActive && !prefersReducedMotion ? { y: -6 } : {}}
-                transition={{ duration: 0.18 }}
+                transition={{ duration: 0.12 }}
               >
                 <div
-                  className="relative overflow-hidden w-full h-full"
+                  className="relative overflow-hidden w-full h-full bg-white z-10"
                   style={{
                     borderRadius: 2,
                     boxShadow: tf.shadow,
@@ -202,6 +197,29 @@ export default function PodiumCarousel({
                     sizes="(max-width: 768px) 300px, 410px"
                     draggable={false}
                   />
+                </div>
+
+                {/* Reflection */}
+                <div
+                  className="absolute top-full left-0 w-full h-full pointer-events-none -z-10"
+                  style={{
+                    transform: "scaleY(-1)",
+                    maskImage: "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 20%)",
+                    WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 20%)",
+                    opacity: 0.2,
+                  }}
+                >
+                  <div className="relative w-full h-full overflow-hidden" style={{ borderRadius: 2 }}>
+                    <Image
+                      src={src}
+                      alt=""
+                      fill
+                      unoptimized
+                      className="object-cover object-top blur-[2px] saturate-[0.6] brightness-75"
+                      sizes="(max-width: 768px) 300px, 410px"
+                      draggable={false}
+                    />
+                  </div>
                 </div>
               </motion.button>
             </motion.div>
