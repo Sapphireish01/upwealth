@@ -52,7 +52,7 @@ function getTransform(offset: number): SlideTransform {
     const x = sign > 0 ? W0 / 2 - W1 / 2 : -(W0 / 2 + W1 / 2);
     return {
       x,
-      y: 0,
+      y: -40,
       width: W1,
       height: H1,
       zIndex: 40,
@@ -66,7 +66,7 @@ function getTransform(offset: number): SlideTransform {
     const x = sign > 0 ? W0 / 2 + W1 / 2 : -(W0 / 2 + W1 / 2 + W2);
     return {
       x,
-      y: 0,
+      y: -80,
       width: W2,
       height: H2,
       zIndex: 30,
@@ -79,7 +79,7 @@ function getTransform(offset: number): SlideTransform {
   const x = sign > 0 ? W0 / 2 + W1 / 2 + W2 + 40 : -(W0 / 2 + W1 / 2 + W2 + W2 + 40);
   return {
     x,
-    y: 0,
+    y: -80,
     width: W2,
     height: H2,
     zIndex: 0,
