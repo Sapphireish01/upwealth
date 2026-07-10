@@ -4,9 +4,10 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 
-const W0 = 410, H0 = 531; // center — main card
-const W1 = 348, H1 = 451; // ±1    — second place
-const W2 = 30, H2 = 398; // ±2    — last place (thin strip)
+const W0 = 360, H0 = 481; // center — main card
+const W1 = 298, H1 = 401; // ±1    — second place
+const W2 = 30, H2 = 348; // ±2    — last place (thin strip)
+const GAP = 40;          // Spacing to spread the carousel out wider
 
 // ---------------------------------------------------------------------------
 // Types
@@ -46,10 +47,10 @@ function getTransform(offset: number): SlideTransform {
 
   // ── ±1 cards ─────────────────────────────────────────────────────────────
   if (abs === 1) {
-    const x = sign > 0 ? W0 / 2 - W1 / 2 : -(W0 / 2 + W1 / 2);
+    const x = sign > 0 ? W0 / 2 - W1 / 2 + GAP : -(W0 / 2 + W1 / 2) - GAP;
     return {
       x,
-      y: -40,
+      y: -45,
       width: W1,
       height: H1,
       zIndex: 40,
@@ -60,10 +61,10 @@ function getTransform(offset: number): SlideTransform {
 
   // ── ±2 cards (thin strips) ────────────────────────────────────────────────
   if (abs === 2) {
-    const x = sign > 0 ? W0 / 2 + W1 / 2 : -(W0 / 2 + W1 / 2 + W2);
+    const x = sign > 0 ? W0 / 2 + W1 / 2 + GAP * 2 : -(W0 / 2 + W1 / 2 + W2) - GAP * 2;
     return {
       x,
-      y: -80,
+      y: -50,
       width: W2,
       height: H2,
       zIndex: 30,
@@ -73,10 +74,10 @@ function getTransform(offset: number): SlideTransform {
   }
 
   // ── Hidden / staging ──────────────────────────────────────────────────────
-  const x = sign > 0 ? W0 / 2 + W1 / 2 + W2 + 40 : -(W0 / 2 + W1 / 2 + W2 + W2 + 40);
+  const x = sign > 0 ? W0 / 2 + W1 / 2 + W2 + GAP * 2 + 40 : -(W0 / 2 + W1 / 2 + W2 + W2 + GAP * 2 + 40);
   return {
     x,
-    y: -80,
+    y: -70,
     width: W2,
     height: H2,
     zIndex: 0,
@@ -191,7 +192,7 @@ export default function PodiumCarousel({
                     fill
                     unoptimized
                     className="object-cover object-top"
-                    sizes="(max-width: 768px) 300px, 410px"
+                    sizes="(max-width: 768px) 300px, 360px"
                     draggable={false}
                   />
                 </div>
@@ -213,7 +214,7 @@ export default function PodiumCarousel({
                       fill
                       unoptimized
                       className="object-cover object-top blur-[2px] saturate-[0.6] brightness-75"
-                      sizes="(max-width: 768px) 300px, 410px"
+                      sizes="(max-width: 768px) 300px, 360px"
                       draggable={false}
                     />
                   </div>

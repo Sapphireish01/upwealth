@@ -19,8 +19,8 @@ export default function HeroSection() {
       className="relative min-h-screen flex items-center pt-24 pb-12 bg-cover bg-center bg-no-repeat w-full"
       style={{ backgroundImage: "url('/images/bg.png')" }}
     >
-      <div className="max-w-[1920px] mx-auto w-full relative z-10 flex flex-col justify-center h-full px-6 xl:pl-[100px] xl:pr-[127px]">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full mt-[43px]">
+      <div className="w-full relative z-10 flex flex-col justify-center h-full px-3">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full mt-[46px]">
 
           {/* Left — Headline */}
           <motion.div
@@ -33,13 +33,15 @@ export default function HeroSection() {
               className="uppercase leading-[1.2]"
               style={{
                 fontFamily: "var(--font-bebas-neue)",
-                fontSize: "clamp(3rem, 5vw, 96px)",
+                fontSize: '100px',
                 fontWeight: 500,
+                lineHeight: '7.5rem',
+                letterSpacing: '2px',
               }}
             >
               <span className="text-black">DISCOVER THE LATEST<br />ISSUE OF </span>
-              <span className="bg-gradient-to-b from-[#D38D1A] from-0% to-[#343ADA] to-150% text-transparent bg-clip-text">UPWEALTH<br /></span>
-              <span className="bg-gradient-to-b from-[#D38D1A] from-[-10%] to-[#343ADA] to-80% text-transparent bg-clip-text">MAGAZINE</span>
+              <span className="inline-block bg-linear-to-b from-[#D38D1A] from-0% to-[#343ADA] to-150% text-transparent bg-clip-text">UPWEALTH<br /></span>
+              <span className="block bg-linear-to-b from-[#D38D1A] from-[-10%] to-[#343ADA] to-80% text-transparent bg-clip-text">MAGAZINE</span>
             </h1>
 
             <p
