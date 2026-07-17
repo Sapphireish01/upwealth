@@ -96,6 +96,6 @@ export const SOCIAL_LINKS: SocialLink[] = [
 // ─── Contact Methods ──────────────────────────────────────────────────────────
 export const CONTACT_METHODS: ContactMethod[] = [
   { type: "chat", label: "Chat with us", href: "#" },
-  { type: "call", label: "Call us", href: "tel:+1234567890" },
+  { type: "call", label: "Call us", href: "tel:+19312666101" },
   { type: "email", label: "Send an email", href: "mailto:hello@upwealthmagazine.com" },
 ];

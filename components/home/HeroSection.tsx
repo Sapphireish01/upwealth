@@ -16,11 +16,11 @@ const CAROUSEL_ALTS = HERO_COVERS.map((issue) => issue.title);
 export default function HeroSection() {
   return (
     <section
-      className="relative min-h-screen flex items-center pt-24 pb-12 bg-cover bg-center bg-no-repeat w-full"
+      className="relative min-h-screen flex items-center pt-24 pb-12 bg-cover bg-center bg-no-repeat w-full overflow-hidden"
       style={{ backgroundImage: "url('/images/bg.png')" }}
     >
-      <div className="w-full relative z-10 flex flex-col justify-center h-full px-3">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full mt-[46px]">
+      <div className="max-w-[1920px] mx-auto w-full relative z-10 flex flex-col justify-center h-full px-3">
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-center w-full mt-[70px]">
 
           {/* Left — Headline */}
           <motion.div
@@ -30,30 +30,26 @@ export default function HeroSection() {
             className="self-start mt-0"
           >
             <h1
-              className="uppercase leading-[1.2]"
+              className="uppercase text-5xl md:text-7xl lg:text-[100px] leading-[1.1] lg:leading-25 tracking-[1.7px] font-medium"
               style={{
                 fontFamily: "var(--font-bebas-neue)",
-                fontSize: '100px',
-                fontWeight: 500,
-                lineHeight: '7.5rem',
-                letterSpacing: '2px',
               }}
             >
-              <span className="text-black">DISCOVER THE LATEST<br />ISSUE OF </span>
-              <span className="inline-block bg-linear-to-b from-[#D38D1A] from-0% to-[#343ADA] to-150% text-transparent bg-clip-text">UPWEALTH<br /></span>
-              <span className="block bg-linear-to-b from-[#D38D1A] from-[-10%] to-[#343ADA] to-80% text-transparent bg-clip-text">MAGAZINE</span>
+              <span className="text-black" style={{ textShadow: '0px 0px 1px rgba(0,0,0,0.3)' }}>DISCOVER THE LATEST<br />ISSUE OF </span>
+              <span className="inline-block bg-linear-to-b from-[#D38D1A] from-40% to-[#343ADA] to-100% text-transparent bg-clip-text">UPWEALTH<br /></span>
+              <span className="block bg-linear-to-b from-[#ac6b02] from-10% to-[#343ADA] to-40% text-transparent bg-clip-text">MAGAZINE</span>
             </h1>
 
             <p
-              className="text-[#202020] text-sm md:text-base mb-5 leading-relaxed"
-              style={{ fontFamily: "var(--font-montserrat)" }}
+              className="text-[#202020] text-sm md:text-base mt-5 leading-relaxed font-semibold"
+              style={{ fontFamily: "var(--font-montserrat)", fontSize: '1rem', textShadow: '0 0 0.5px rgba(0,0,0,0.6)' }}
             >
               Stay informed with our insightful articles and expert advice.
             </p>
 
-            <SubscribeBtn size="lg" />
+            <SubscribeBtn size="lg" className='mt-12' />
             {/* Scroll indicator - Aligned to left text */}
-            <ScrollIndicator mt='12' />
+            <ScrollIndicator mt='6' />
           </motion.div>
 
           {/* Right — Podium Carousel */}
@@ -61,7 +57,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.15 }}
-            className="relative flex items-center justify-center mt-12 lg:mt-0 overflow-visible"
+            className="relative flex items-start justify-center mt-12 lg:mt-0 overflow-visible self-start"
           >
             <PodiumCarousel
               images={CAROUSEL_IMAGES}

@@ -123,3 +123,35 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Custom Scrollbar - Global Scope */
+
+/* Firefox only (prevents standard scrollbar-color from disabling webkit in Chrome 121+) */
+@supports (-moz-appearance: none) {
+  html {
+    scrollbar-width: auto;
+    scrollbar-color: #DF9420 transparent;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 15px !important;
+  height: 15px !important;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #DF9420 0%, #ffd27f 100%) !important;
+  border-radius: 10px !important;
+  border: 1px solid transparent !important;
+  background-clip: padding-box !important;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.45), inset 0 -2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #C07708 0%, #f6cb8b 100%) !important;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.45), inset 0 -2px 4px rgba(0, 0, 0, 0.2) !important;
+}

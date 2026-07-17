@@ -19,7 +19,7 @@ export default function ContactForm() {
   });
 
   async function onSubmit(data: ContactSchema) {
-    // TODO: wire to your API route at /api/contact
+    // TODO: wire to API route
     console.log("Form data:", data);
     await new Promise((r) => setTimeout(r, 800)); // simulate network
     setSubmitted(true);

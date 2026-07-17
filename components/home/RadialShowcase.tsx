@@ -35,15 +35,24 @@ export default function RadialShowcase() {
     <section
       id="radial"
       className="relative py-33 overflow-hidden mt-15 w-full"
-      style={{
-        backgroundImage: "url('/images/about%20us%20bg.png')",
-        backgroundSize: "80% auto",
-        backgroundPosition: "top center",
-        backgroundRepeat: "no-repeat"
-      }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      {/* Animated Radial Background */}
+      <motion.div
+        initial={{ y: 120, opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="absolute inset-0 pointer-events-none -z-10"
+        style={{
+          backgroundImage: "url('/images/about%20us%20bg.png')",
+          backgroundSize: "80% auto",
+          backgroundPosition: "top center",
+          backgroundRepeat: "no-repeat"
+        }}
+      />
+
       <div className="max-w-[1920px] mx-auto w-full relative z-10 px-6 xl:pl-[100px] xl:pr-[127px]">
         {/* Cascading Watermarks */}
         <div
@@ -65,7 +74,7 @@ export default function RadialShowcase() {
               viewport={{ once: true }}
               className="relative z-20 w-72"
             >
-              <div className="aspect-[3/4] relative" style={{ top: (5), left: '50%', transform: 'translate(-50%, -50%)' }}>
+              <div className="aspect-3/4 relative" style={{ top: (5), left: '50%', transform: 'translate(-50%, -50%)' }}>
                 <img
                   src="/images/radial-1.png"
                   alt={FEATURED_ISSUE.coverAlt}
@@ -83,7 +92,7 @@ export default function RadialShowcase() {
             {/* Carousel 2 */}
             <div className="absolute z-10" style={{ left: -32, top: 208 }}>
               <div className="w-28 magazine-cover" style={{ transform: "rotate(8.15deg)" }}>
-                <div className="aspect-[3/4] bg-[#EBEBED] relative overflow-hidden shadow-cover">
+                <div className="aspect-3/4 bg-[#EBEBED] relative overflow-hidden shadow-cover">
                   <img src="/images/carousel-2.png" alt="Carousel 2" className="w-full h-full object-cover" />
                 </div>
               </div>
@@ -92,7 +101,7 @@ export default function RadialShowcase() {
             {/* Carousel 3 */}
             <div className="absolute z-10" style={{ left: 205, top: (-47) }}>
               <div className="w-30 magazine-cover" style={{ transform: "rotate(-11deg)" }}>
-                <div className="aspect-[3/4] bg-[#EBEBED] relative overflow-hidden shadow-cover">
+                <div className="aspect-3/4 bg-[#EBEBED] relative overflow-hidden shadow-cover">
                   <img src="/images/carousel-3.png" alt="Carousel 2" className="w-full h-full object-cover" />
                 </div>
               </div>
@@ -101,7 +110,7 @@ export default function RadialShowcase() {
             {/* Carousel 4 */}
             <div className="absolute z-10" style={{ right: 213, top: (-72) }}>
               <div className="w-28 magazine-cover" style={{ transform: "rotate(-8.15deg)" }}>
-                <div className="aspect-[3/4] bg-[#EBEBED] relative overflow-hidden shadow-cover">
+                <div className="aspect-3/4 bg-[#EBEBED] relative overflow-hidden shadow-cover">
                   <img src="/images/carousel-6.png" alt="Carousel 2" className="w-full h-full object-cover" />
                 </div>
               </div>
@@ -110,7 +119,7 @@ export default function RadialShowcase() {
             {/* Carousel 1 */}
             <div className="absolute z-10" style={{ right: -33, top: 212 }}>
               <div className="w-28 magazine-cover" style={{ transform: "rotate(8.15deg)" }}>
-                <div className="aspect-[3/4] bg-[#EBEBED] relative overflow-hidden shadow-cover">
+                <div className="aspect-3/4 bg-[#EBEBED] relative overflow-hidden shadow-cover">
                   <img src="/images/carousel-1.png" alt="Carousel 2" className="w-full h-full object-cover" />
                 </div>
               </div>

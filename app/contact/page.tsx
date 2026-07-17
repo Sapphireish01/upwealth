@@ -20,9 +20,9 @@ export default function ContactPage() {
       >
         {/* Form hero */}
         <section className="bg-grid py-24 relative">
-          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#F0F0F3] to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 max-w-4xl mx-auto bottom-0 h-32 bg-linear-to-t from-[#F0F0F3] to-transparent pointer-events-none" />
           <div className="max-w-3xl mx-auto px-6 relative z-10">
-            <div 
+            <div
               className="rounded-[16px] p-10"
               style={{
                 background: "rgba(240, 240, 243, 0.7)",
@@ -45,7 +45,7 @@ export default function ContactPage() {
               <ContactForm />
             </div>
           </div>
-          <ScrollIndicator className="absolute bottom-10 right-6 md:right-32 z-20 hidden lg:block" />
+          <ScrollIndicator href="#contact-methods" className="absolute bottom-50 right-6 md:right-32 z-20 hidden lg:block" />
         </section>
 
         {/* Contact method cards + intro */}

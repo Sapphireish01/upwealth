@@ -4,10 +4,10 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 
-const W0 = 360, H0 = 481; // center — main card
-const W1 = 298, H1 = 401; // ±1    — second place
-const W2 = 30, H2 = 348; // ±2    — last place (thin strip)
-const GAP = 40;          // Spacing to spread the carousel out wider
+const W0 = 300, H0 = 380; // center — main card
+const W1 = 270, H1 = 350; // ±1    — second place
+const W2 = 70, H2 = 320;  // ±2    — last place
+const GAP = 30;           // Spacing to spread the carousel out wider
 
 // ---------------------------------------------------------------------------
 // Types
@@ -50,7 +50,7 @@ function getTransform(offset: number): SlideTransform {
     const x = sign > 0 ? W0 / 2 - W1 / 2 + GAP : -(W0 / 2 + W1 / 2) - GAP;
     return {
       x,
-      y: -45,
+      y: -15,
       width: W1,
       height: H1,
       zIndex: 40,
@@ -61,10 +61,13 @@ function getTransform(offset: number): SlideTransform {
 
   // ── ±2 cards (thin strips) ────────────────────────────────────────────────
   if (abs === 2) {
-    const x = sign > 0 ? W0 / 2 + W1 / 2 + GAP * 2 : -(W0 / 2 + W1 / 2 + W2) - GAP * 2;
+    // Positioned to overlap behind the ±1 cards, peeking out by 25px
+    const x = sign > 0
+      ? W0 / 2 + W1 / 2 + GAP - 45
+      : -(W0 / 2 + W1 / 2 + W2) - GAP + 45;
     return {
       x,
-      y: -50,
+      y: -20,
       width: W2,
       height: H2,
       zIndex: 30,
@@ -74,10 +77,13 @@ function getTransform(offset: number): SlideTransform {
   }
 
   // ── Hidden / staging ──────────────────────────────────────────────────────
-  const x = sign > 0 ? W0 / 2 + W1 / 2 + W2 + GAP * 2 + 40 : -(W0 / 2 + W1 / 2 + W2 + W2 + GAP * 2 + 40);
+  // Positioned slightly further out than ±2 cards to slide/fade out smoothly
+  const x = sign > 0
+    ? W0 / 2 + W1 / 2 + GAP - 5
+    : -(W0 / 2 + W1 / 2 + W2) - GAP + 5;
   return {
     x,
-    y: -70,
+    y: -35,
     width: W2,
     height: H2,
     zIndex: 0,
@@ -86,36 +92,38 @@ function getTransform(offset: number): SlideTransform {
   };
 }
 
-function circularOffset(index: number, active: number, total: number): number {
-  let offset = index - active;
-  if (offset > total / 2) offset -= total;
-  if (offset < -total / 2) offset += total;
-  return offset;
-}
-
 export default function PodiumCarousel({
   images,
   altTexts,
   autoPlayInterval = 3500,
 }: PodiumCarouselProps) {
+  const total = images.length;
+
+  // Initialize activeIndex to a large offset matching the initial center (total / 2)
   const [activeIndex, setActiveIndex] = useState(
-    () => Math.floor(images.length / 2)
+    () => Math.floor(total / 2) + total * 100
   );
   const [hovered, setHovered] = useState(false);
   const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const total = images.length;
-
   const advance = useCallback(
-    () => setActiveIndex((prev) => (prev + 1) % total),
-    [total]
+    () => setActiveIndex((prev) => prev + 1),
+    []
   );
 
   const retreat = useCallback(
-    () => setActiveIndex((prev) => (prev - 1 + total) % total),
-    [total]
+    () => setActiveIndex((prev) => prev - 1),
+    []
   );
+
+  const handleCardClick = (targetImgIndex: number) => {
+    const currentImgIndex = ((activeIndex % total) + total) % total;
+    let diff = targetImgIndex - currentImgIndex;
+    if (diff > total / 2) diff -= total;
+    if (diff < -total / 2) diff += total;
+    setActiveIndex((prev) => prev + diff);
+  };
 
   // Auto-play — paused while hovered / focused
   useEffect(() => {
@@ -126,7 +134,10 @@ export default function PodiumCarousel({
 
   const springTransition = prefersReducedMotion
     ? { duration: 0 }
-    : { type: "spring" as const, stiffness: 85, damping: 20, mass: 1 };
+    : { type: "spring" as const, stiffness: 220, damping: 26, mass: 1 };
+
+  // Render a window of offsets from -3 to 3 (7 cards total)
+  const offsets = [-3, -2, -1, 0, 1, 2, 3];
 
   return (
     <div
@@ -144,16 +155,19 @@ export default function PodiumCarousel({
         className="relative w-full overflow-visible"
         style={{ height: H0 }}
       >
-        {images.map((src, index) => {
-          const offset = circularOffset(index, activeIndex, total);
-          const tf = getTransform(offset);
-          const isActive = offset === 0;
-          const isHidden = Math.abs(offset) > 2;
+        {offsets.map((off) => {
+          const vIndex = activeIndex + off;
+          const imgIndex = ((vIndex % total) + total) % total;
+          const src = images[imgIndex];
+          const tf = getTransform(off);
+          const isActive = off === 0;
+          const isHidden = Math.abs(off) > 2;
 
           return (
             <motion.div
-              key={src}
+              key={vIndex}
               aria-hidden={isHidden}
+              initial={false}
               style={{ position: "absolute", left: "50%", bottom: 0 }}
               animate={{
                 x: tf.x,
@@ -168,11 +182,11 @@ export default function PodiumCarousel({
               <motion.button
                 aria-label={
                   isActive
-                    ? `Current cover: ${altTexts?.[index] ?? `Cover ${index + 1}`}`
-                    : `View ${altTexts?.[index] ?? `Cover ${index + 1}`}`
+                    ? `Current cover: ${altTexts?.[imgIndex] ?? `Cover ${imgIndex + 1}`}`
+                    : `View ${altTexts?.[imgIndex] ?? `Cover ${imgIndex + 1}`}`
                 }
                 disabled={isActive}
-                onClick={() => !isActive && setActiveIndex(index)}
+                onClick={() => !isActive && handleCardClick(imgIndex)}
                 className="block w-full h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A57A60] my-auto"
                 style={{ pointerEvents: isHidden ? "none" : "auto" }}
                 whileHover={!isActive && !prefersReducedMotion ? { y: -6 } : {}}
@@ -188,11 +202,11 @@ export default function PodiumCarousel({
                 >
                   <Image
                     src={src}
-                    alt={altTexts?.[index] ?? `Magazine cover ${index + 1}`}
+                    alt={altTexts?.[imgIndex] ?? `Magazine cover ${imgIndex + 1}`}
                     fill
                     unoptimized
                     className="object-cover object-top"
-                    sizes="(max-width: 768px) 300px, 360px"
+                    sizes="(max-width: 768px) 250px, 300px"
                     draggable={false}
                   />
                 </div>
@@ -214,7 +228,7 @@ export default function PodiumCarousel({
                       fill
                       unoptimized
                       className="object-cover object-top blur-[2px] saturate-[0.6] brightness-75"
-                      sizes="(max-width: 768px) 300px, 360px"
+                      sizes="(max-width: 768px) 250px, 300px"
                       draggable={false}
                     />
                   </div>
@@ -223,57 +237,6 @@ export default function PodiumCarousel({
             </motion.div>
           );
         })}
-      </div>
-
-      {/* ------------------------------------------------------------------ */}
-      {/* Controls row                                                        */}
-      {/* ------------------------------------------------------------------ */}
-      <div className="flex items-center gap-4 mt-6">
-        {/* Prev */}
-        {/* <button
-          onClick={retreat}
-          aria-label="Previous cover"
-          className="w-8 h-8 rounded-full bg-white/70 backdrop-blur border border-white/40 shadow flex items-center justify-center text-[#A57A60] hover:bg-white hover:scale-110 transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A57A60]"
-        >
-          <ChevronLeft size={16} strokeWidth={2.5} />
-        </button> */}
-
-        {/* Dots */}
-        {/* <div className="flex items-center gap-2" role="tablist">
-          {images.map((_, i) => (
-            <button
-              key={i}
-              role="tab"
-              aria-selected={i === activeIndex}
-              aria-label={`Go to cover ${i + 1}`}
-              onClick={() => setActiveIndex(i)}
-              className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A57A60] rounded-full"
-            >
-              <motion.span
-                className="block rounded-full bg-[#A57A60]"
-                animate={{
-                  width: i === activeIndex ? 20 : 7,
-                  opacity: i === activeIndex ? 1 : 0.35,
-                }}
-                transition={
-                  prefersReducedMotion
-                    ? { duration: 0 }
-                    : { type: "spring", stiffness: 320, damping: 28 }
-                }
-                style={{ height: 7 }}
-              />
-            </button>
-          ))}
-        </div> */}
-
-        {/* Next */}
-        {/* <button
-          onClick={advance}
-          aria-label="Next cover"
-          className="w-8 h-8 rounded-full bg-white/70 backdrop-blur border border-white/40 shadow flex items-center justify-center text-[#A57A60] hover:bg-white hover:scale-110 transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A57A60]"
-        >
-          <ChevronRight size={16} strokeWidth={2.5} />
-        </button> */}
       </div>
     </div>
   );

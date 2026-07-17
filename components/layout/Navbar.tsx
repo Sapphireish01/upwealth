@@ -11,7 +11,7 @@ export default function Navbar() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-linear-to-b from-white to-white/0">
-      <div className="px-[18px] py-[18px] flex items-center justify-between">
+      <div className="px-[18px] py-[18px] flex max-w-[1920px] mx-auto items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-baseline gap-0.5 shrink-0">
           <Image src="/images/upwealth-logo.svg" alt="Logo" width={150} height={30} />

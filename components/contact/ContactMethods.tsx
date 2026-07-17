@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { CONTACT_METHODS } from "@/data";
 import type { ContactMethodType } from "@/types";
@@ -29,13 +30,28 @@ const ICONS: Record<ContactMethodType, React.ElementType> = {
 };
 
 export default function ContactMethods() {
+  const [revealedMethods, setRevealedMethods] = useState<Record<string, boolean>>({});
+
+  const toggleMethod = (type: string) => {
+    setRevealedMethods((prev) => ({
+      ...prev,
+      [type]: !prev[type]
+    }));
+  };
+
   return (
-    <section className="py-20 bg-[#F0F0F3]">
+    <section id="contact-methods" className="py-20 bg-[#F0F0F3]">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-12 items-center">
 
           {/* Left — Intro text */}
-          <div className="max-w-[506px]">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: false, amount: 0.2 }}
+            className="max-w-[506px]"
+          >
             <h2
               className="text-[#000000] mb-4"
               style={{
@@ -60,33 +76,67 @@ export default function ContactMethods() {
               If you have any questions regarding subscriptions, or how to feature or advertise
               in our magazine, don't hesitate to get in touch.
             </p>
-          </div>
+          </motion.div>
 
           {/* Right — Method cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {CONTACT_METHODS.map(({ type, label, href }, i) => {
+            {CONTACT_METHODS.map(({ type, label }, i) => {
               const Icon = ICONS[type];
+              const isRevealed = revealedMethods[type];
+              const shouldFlip = type === "chat" && isRevealed;
+              const isEmailAddress = type === "email" && isRevealed;
+              const textSizeClass = isEmailAddress ? "text-xs" : "text-sm";
+
+              // Determine display text when clicked
+              let displayLabel = label;
+              if (isRevealed) {
+                if (type === "chat") {
+                  displayLabel = "+1(931)-266-6101";
+                } else if (type === "call") {
+                  displayLabel = "+1(931)-266-6424";
+                } else if (type === "email") {
+                  displayLabel = "info@upwealthmagazine.com";
+                }
+              }
+
               return (
-                <motion.a
+                <motion.div
                   key={type}
-                  href={href ?? "#"}
+                  onClick={() => toggleMethod(type)}
+                  onMouseLeave={() => {
+                    setRevealedMethods((prev) => ({
+                      ...prev,
+                      [type]: false
+                    }));
+                  }}
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: i * 0.1 }}
-                  viewport={{ once: true }}
-                  className="contact-method-card group px-8 py-14 rounded-[32px] flex flex-col items-center justify-center gap-4"
+                  viewport={{ once: false, amount: 0.2 }}
+                  className="contact-method-card px-8 py-14 rounded-[32px] flex flex-col items-center justify-center gap-4 cursor-pointer select-none transition-shadow duration-300"
                   style={{
                     backgroundColor: "#F0F0F3",
-                    boxShadow: "-1px -1px 2px #FFFFFF, -5px -5px 11.5px #FFFFFF, 1px 1px 2px rgba(0, 0, 0, 0.25), 5px 5px 8.5px rgba(0, 0, 0, 0.25)"
+                    boxShadow: isRevealed
+                      ? "inset -1px -1px 2px #FFFFFF, inset -5px -5px 10px #FFFFFF, inset 1px 1px 2px rgba(0, 0, 0, 0.25), inset 5px 5px 8.5px rgba(0, 0, 0, 0.25)"
+                      : "-1px -1px 2px #FFFFFF, -5px -5px 11.5px #FFFFFF, 1px 1px 2px rgba(0, 0, 0, 0.25), 5px 5px 8.5px rgba(0, 0, 0, 0.25)"
                   }}
                 >
                   <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center text-[#494949] group-hover:text-[#C07708] transition-colors duration-200"
+                    className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-200 pointer-events-none ${
+                      isRevealed ? 'text-[#C07708]' : 'text-[#494949]'
+                    }`}
                   >
-                    <Icon size={22} />
+                    <span
+                      className={`inline-block transition-transform duration-300 ${shouldFlip ? "transform scale-x-[-1]" : ""}`}
+                      style={shouldFlip ? { transform: "scaleX(-1)" } : undefined}
+                    >
+                      <Icon size={26} />
+                    </span>
                   </div>
-                  <span className="text-sm font-semibold text-[#494949] group-hover:text-[#C07708] transition-colors duration-200">{label}</span>
-                </motion.a>
+                  <span className={`${textSizeClass} font-semibold transition-colors duration-200 pointer-events-none ${
+                    isRevealed ? 'text-[#C07708]' : 'text-[#494949]'
+                  }`}>{displayLabel}</span>
+                </motion.div>
               );
             })}
           </div>
