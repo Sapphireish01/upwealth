@@ -40,7 +40,7 @@ export default function ContactMethods() {
   };
 
   return (
-    <section id="contact-methods" className="sm:py-20 bg-[#F0F0F3]">
+    <section id="contact-methods" className="pb-10 sm:py-20 bg-[#F0F0F3]">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-12 items-center">
 
