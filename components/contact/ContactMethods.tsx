@@ -40,7 +40,7 @@ export default function ContactMethods() {
   };
 
   return (
-    <section id="contact-methods" className="py-20 bg-[#F0F0F3]">
+    <section id="contact-methods" className="sm:py-20 bg-[#F0F0F3]">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-12 items-center">
 
@@ -113,7 +113,7 @@ export default function ContactMethods() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: i * 0.1 }}
                   viewport={{ once: false, amount: 0.2 }}
-                  className="contact-method-card px-8 py-14 rounded-[32px] flex flex-col items-center justify-center gap-4 cursor-pointer select-none transition-shadow duration-300"
+                  className="contact-method-card px-6 py-4 sm:px-8 sm:py-14 rounded-[20px] sm:rounded-[32px] flex flex-row sm:flex-col items-center justify-start sm:justify-center gap-4 cursor-pointer select-none transition-shadow duration-300 w-full"
                   style={{
                     backgroundColor: "#F0F0F3",
                     boxShadow: isRevealed
@@ -122,20 +122,18 @@ export default function ContactMethods() {
                   }}
                 >
                   <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-200 pointer-events-none ${
-                      isRevealed ? 'text-[#C07708]' : 'text-[#494949]'
-                    }`}
+                    className={`w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-colors duration-200 pointer-events-none shrink-0 ${isRevealed ? 'text-[#C07708]' : 'text-[#494949]'
+                      }`}
                   >
                     <span
                       className={`inline-block transition-transform duration-300 ${shouldFlip ? "transform scale-x-[-1]" : ""}`}
                       style={shouldFlip ? { transform: "scaleX(-1)" } : undefined}
                     >
-                      <Icon size={26} />
+                      <Icon className="w-6 h-6 sm:w-8 sm:h-8" />
                     </span>
                   </div>
-                  <span className={`${textSizeClass} font-semibold transition-colors duration-200 pointer-events-none ${
-                    isRevealed ? 'text-[#C07708]' : 'text-[#494949]'
-                  }`}>{displayLabel}</span>
+                  <span className={`${textSizeClass} font-semibold transition-colors duration-200 pointer-events-none ${isRevealed ? 'text-[#C07708]' : 'text-[#494949]'
+                    }`}>{displayLabel}</span>
                 </motion.div>
               );
             })}

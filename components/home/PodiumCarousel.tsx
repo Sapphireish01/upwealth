@@ -4,11 +4,6 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 
-const W0 = 300, H0 = 380; // center — main card
-const W1 = 270, H1 = 350; // ±1    — second place
-const W2 = 70, H2 = 320;  // ±2    — last place
-const GAP = 30;           // Spacing to spread the carousel out wider
-
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
@@ -28,76 +23,109 @@ interface SlideTransform {
   shadow: string;
 }
 
-function getTransform(offset: number): SlideTransform {
-  const abs = Math.abs(offset);
-  const sign = offset > 0 ? 1 : -1;
-
-  // ── Center card ──────────────────────────────────────────────────────────
-  if (offset === 0) {
-    return {
-      x: -W0 / 2,
-      y: 0,
-      width: W0,
-      height: H0,
-      zIndex: 50,
-      opacity: 1,
-      shadow: "0 28px 70px rgba(0,0,0,0.45), 0 4px 16px rgba(0,0,0,0.25)",
-    };
-  }
-
-  // ── ±1 cards ─────────────────────────────────────────────────────────────
-  if (abs === 1) {
-    const x = sign > 0 ? W0 / 2 - W1 / 2 + GAP : -(W0 / 2 + W1 / 2) - GAP;
-    return {
-      x,
-      y: -15,
-      width: W1,
-      height: H1,
-      zIndex: 40,
-      opacity: 1,
-      shadow: "0 10px 30px rgba(0,0,0,0.20)",
-    };
-  }
-
-  // ── ±2 cards (thin strips) ────────────────────────────────────────────────
-  if (abs === 2) {
-    // Positioned to overlap behind the ±1 cards, peeking out by 25px
-    const x = sign > 0
-      ? W0 / 2 + W1 / 2 + GAP - 45
-      : -(W0 / 2 + W1 / 2 + W2) - GAP + 45;
-    return {
-      x,
-      y: -20,
-      width: W2,
-      height: H2,
-      zIndex: 30,
-      opacity: 0.9,
-      shadow: "0 4px 14px rgba(0,0,0,0.14)",
-    };
-  }
-
-  // ── Hidden / staging ──────────────────────────────────────────────────────
-  // Positioned slightly further out than ±2 cards to slide/fade out smoothly
-  const x = sign > 0
-    ? W0 / 2 + W1 / 2 + GAP - 5
-    : -(W0 / 2 + W1 / 2 + W2) - GAP + 5;
-  return {
-    x,
-    y: -35,
-    width: W2,
-    height: H2,
-    zIndex: 0,
-    opacity: 0,
-    shadow: "none",
-  };
-}
-
 export default function PodiumCarousel({
   images,
   altTexts,
   autoPlayInterval = 3500,
 }: PodiumCarouselProps) {
   const total = images.length;
+  const [screenType, setScreenType] = useState<"desktop" | "tablet" | "mobile">("desktop");
+
+  useEffect(() => {
+    const handleResize = () => {
+      const w = window.innerWidth;
+      if (w < 768) {
+        setScreenType("mobile");
+      } else if (w < 1024) {
+        setScreenType("tablet");
+      } else {
+        setScreenType("desktop");
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Compute dimensions based on screenType
+  let W0 = 300, H0 = 380;
+  let W1 = 270, H1 = 350;
+  let W2 = 70, H2 = 320;
+  let GAP = 30;
+
+  if (screenType === "tablet") {
+    W0 = 220; H0 = 280;
+    W1 = 180; H1 = 240;
+    W2 = 50; H2 = 210;
+    GAP = 15;
+  } else if (screenType === "mobile") {
+    W0 = 150; H0 = 190;
+    W1 = 110; H1 = 150;
+    W2 = 30; H2 = 120;
+    GAP = 5;
+  }
+
+  function getTransform(offset: number): SlideTransform {
+    const abs = Math.abs(offset);
+    const sign = offset > 0 ? 1 : -1;
+
+    // ── Center card ──────────────────────────────────────────────────────────
+    if (offset === 0) {
+      return {
+        x: -W0 / 2,
+        y: 0,
+        width: W0,
+        height: H0,
+        zIndex: 50,
+        opacity: 1,
+        shadow: "0 28px 70px rgba(0,0,0,0.45), 0 4px 16px rgba(0,0,0,0.25)",
+      };
+    }
+
+    // ── ±1 cards ─────────────────────────────────────────────────────────────
+    if (abs === 1) {
+      const x = sign > 0 ? W0 / 2 - W1 / 2 + GAP : -(W0 / 2 + W1 / 2) - GAP;
+      return {
+        x,
+        y: -15,
+        width: W1,
+        height: H1,
+        zIndex: 40,
+        opacity: 1,
+        shadow: "0 10px 30px rgba(0,0,0,0.20)",
+      };
+    }
+
+    // ── ±2 cards (thin strips) ────────────────────────────────────────────────
+    if (abs === 2) {
+      const x = sign > 0
+        ? W0 / 2 + W1 / 2 + GAP - (screenType === "mobile" ? 15 : 45)
+        : -(W0 / 2 + W1 / 2 + W2) - GAP + (screenType === "mobile" ? 15 : 45);
+      return {
+        x,
+        y: -20,
+        width: W2,
+        height: H2,
+        zIndex: 30,
+        opacity: 0.9,
+        shadow: "0 4px 14px rgba(0,0,0,0.14)",
+      };
+    }
+
+    // ── Hidden / staging ──────────────────────────────────────────────────────
+    const x = sign > 0
+      ? W0 / 2 + W1 / 2 + GAP - 5
+      : -(W0 / 2 + W1 / 2 + W2) - GAP + 5;
+    return {
+      x,
+      y: -35,
+      width: W2,
+      height: H2,
+      zIndex: 0,
+      opacity: 0,
+      shadow: "none",
+    };
+  }
 
   // Initialize activeIndex to a large offset matching the initial center (total / 2)
   const [activeIndex, setActiveIndex] = useState(

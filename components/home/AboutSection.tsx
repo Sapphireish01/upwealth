@@ -6,13 +6,13 @@ import ScrollIndicator from "../ui/ScrollIndicator";
 export default function AboutSection() {
   return (
     <section className="pb-20 w-full">
-      <div className="max-w-[1920px] mx-auto w-full relative z-20 px-6 xl:pl-[100px] xl:pr-[127px] flex -mt-16 lg:-mt-90">
+      <div className="max-w-[1920px] mx-auto w-full relative z-20 px-4 xl:pl-[100px] xl:pr-[127px] flex -mt-36 sm:-mt-48 md:-mt-64 lg:-mt-80 xl:-mt-96">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="bg-[#F0F0F3] rounded-t-[32px] shadow-[var(--nm-drop)] p-10 lg:px-18 lg:py-10 flex flex-col items-center"
+          className="bg-[#F0F0F3] rounded-t-[32px] shadow-(--nm-drop) p-10 lg:px-18 lg:py-10 flex flex-col items-center"
         >
           {/* Top Content Row */}
           <div className="flex flex-col lg:flex-row gap-12 items-center lg:items-start w-full">
@@ -24,14 +24,14 @@ export default function AboutSection() {
                 About Us
               </p>
               <h2
-                className="text-black text-[30px] font-bold"
+                className="text-black text-[28px] sm:text-[28px] md:text-[30px] font-bold"
                 style={{ fontFamily: "var(--font-montserrat)" }}
               >
                 Grow your net worth<br />by growing your<br />network.
               </h2>
             </div>
 
-            <div className="hidden lg:block w-[6px] h-[227px] bg-[#F0F0F3] shadow-[var(--nm-inner)] rounded-[4px] flex-shrink-0" />
+            <div className="hidden lg:block w-[6px] h-[227px] bg-[#F0F0F3] shadow-(--nm-inner) rounded-[4px] shrink-0" />
 
             {/* Right */}
             <div style={{ fontFamily: "var(--font-montserrat)" }} className="w-full lg:w-2/3">

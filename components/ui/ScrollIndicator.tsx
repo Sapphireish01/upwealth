@@ -20,7 +20,7 @@ export default function ScrollIndicator(
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 1, duration: 1 }}
-      className={`${mt ? `mt-${mt}` : ""} ${mb ? `mb-${mb}` : ""} ${className}`.trim()}
+      className={`hidden sm:flex justify-center ${mt ? `mt-${mt}` : ""} ${mb ? `mb-${mb}` : ""} ${className}`.trim()}
     >
       <a
         href={href}

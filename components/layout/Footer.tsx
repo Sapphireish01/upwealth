@@ -48,7 +48,7 @@ export default function Footer() {
           </Link>
 
           {/* Footer Nav */}
-          <nav className="flex items-center justify-between w-[376px]">
+          <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 w-full max-w-[376px]">
             {FOOTER_LINKS.map((link) => (
               <Link
                 key={link.href}
@@ -69,7 +69,7 @@ export default function Footer() {
                   key={platform}
                   href={href}
                   aria-label={label}
-                  className="w-10 h-10 p-3 !rounded-full flex items-center justify-center nm-flat hover:[box-shadow:var(--nm-inner)] transition-colors"
+                  className="w-10 h-10 p-3 rounded-full! flex items-center justify-center nm-flat hover:[box-shadow:var(--nm-inner)] transition-colors"
                 >
                   <Icon size={16} />
                 </a>
@@ -80,7 +80,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="pt-6 flex flex-col items-center gap-6 text-center">
-          <svg width="376" height="6" viewBox="0 0 376 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 376 6" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full max-w-[376px] h-[6px]">
             <g filter="url(#filter0_iiii_1_9487)">
               <rect width="376" height="6" rx="3" fill="#F0F0F3" />
             </g>

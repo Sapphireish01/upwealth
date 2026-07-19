@@ -24,7 +24,7 @@ export function SubscribeBtn({
 
     // Size variations based on the design kit (Hero CTA is 24px)
     const sizeClasses = size === 'lg'
-        ? 'px-8 py-4 text-[24px]'
+        ? 'px-8 py-2 text-[24px]'
         : 'px-8 py-3 text-[16px]';
 
     return (

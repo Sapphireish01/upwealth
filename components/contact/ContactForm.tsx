@@ -27,7 +27,7 @@ export default function ContactForm() {
   }
 
   const inputBase =
-    "w-full px-[24px] py-[20px] rounded-[16px] bg-[#F0F0F3] border-none text-sm text-[#1B1F3B] placeholder-[#8E8E93] focus:outline-none transition shadow-[inset_-1px_-1px_2px_0px_#FFFFFF,inset_-4px_-4px_10px_0px_#FFFFFF,inset_1px_1px_2px_0px_rgba(0,0,0,0.25),inset_5px_5px_8.5px_0px_rgba(0,0,0,0.25)]";
+    "w-full px-[16px] py-[14px] sm:px-[24px] sm:py-[20px] rounded-[16px] bg-[#F0F0F3] border-none text-sm text-[#1B1F3B] placeholder-[#8E8E93] focus:outline-none transition shadow-[inset_-1px_-1px_2px_0px_#FFFFFF,inset_-4px_-4px_10px_0px_#FFFFFF,inset_1px_1px_2px_0px_rgba(0,0,0,0.25),inset_5px_5px_8.5px_0px_rgba(0,0,0,0.25)]";
 
   const errorText = "text-xs text-red-500 mt-1";
 
@@ -64,7 +64,7 @@ export default function ContactForm() {
       noValidate
       className="w-full"
     >
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-[32px] mb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-[32px] mb-2 sm:mb-4">
         {/* First Name */}
         <div>
           <input
@@ -121,7 +121,7 @@ export default function ContactForm() {
       </div>
 
       {/* Message */}
-      <div className="mb-6">
+      <div className="mb-2 sm:mb-6">
         <textarea
           {...register("message")}
           placeholder="Message"

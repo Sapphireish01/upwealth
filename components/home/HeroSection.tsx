@@ -20,7 +20,7 @@ export default function HeroSection() {
       style={{ backgroundImage: "url('/images/bg.png')" }}
     >
       <div className="max-w-[1920px] mx-auto w-full relative z-10 flex flex-col justify-center h-full px-3">
-        <div className="grid grid-cols-1 lg:grid-cols-2 items-center w-full mt-[70px]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-center w-full lg:mt-[70px]">
 
           {/* Left — Headline */}
           <motion.div
@@ -47,7 +47,7 @@ export default function HeroSection() {
               Stay informed with our insightful articles and expert advice.
             </p>
 
-            <SubscribeBtn size="lg" className='mt-12' />
+            <SubscribeBtn size="lg" className="hidden lg:inline-flex mt-12" />
             {/* Scroll indicator - Aligned to left text */}
             <ScrollIndicator mt='6' />
           </motion.div>
@@ -57,13 +57,16 @@ export default function HeroSection() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.15 }}
-            className="relative flex items-start justify-center mt-12 lg:mt-0 overflow-visible self-start"
+            className="relative flex flex-col items-center justify-center mt-12 lg:mt-0 overflow-visible self-start w-full"
           >
             <PodiumCarousel
               images={CAROUSEL_IMAGES}
               altTexts={CAROUSEL_ALTS}
               autoPlayInterval={3500}
             />
+            <div className="w-full mt-8 lg:hidden flex justify-center">
+              <SubscribeBtn size="lg" className="w-full" />
+            </div>
           </motion.div>
         </div>
 
